@@ -1,0 +1,10 @@
+.pointer {
+    cursor: pointer;
+}
+
+.balance {
+    display: block;
+    vertical-align: middle;
+    color: white;
+    margin: 0.5rem;
+}

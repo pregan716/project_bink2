@@ -1,0 +1,78 @@
+AdminSuper
+SuperKer01841!
+
+
+TODO:
+
+- Make new market_outcome_type funciton faster by checking foreign key dict to see if already exists?
+
+- Finish initialization of Django project (DONE)
+
+- Choose primary 'write' feature (DONE)
+-- Will be ability to place fake bets
+
+- Create models
+-- "dim" tables
+--- Sport (DONE)
+    League (DONE)
+    Team (DONE)
+    Player (DONE)
+    Sportsbooks (DONE)
+    SD Metadata (DONE)
+------ BetTypes (DONE)
+------ MarketTypes (DONE)
+------ PeriodTypes (DONE)
+------ OutcomeTypes (DONE)
+------ EventTypes (DONE)
+------ ResultTypes ADD SPORT AND LEAGUE  
+    Betting events ADD SPORT AND LEAGUE
+    Betting markets by event (check whether includes futures)
+    Betting outcomes 
+        Incorporate price updates into 'sd_data_update' - include value and payouts
+        Remove value and payouts from outcome update code and model
+
+
+Questions:
+- Are sd's bettingeventids unique across sports? or are ids for NFL events equal to ids for events in other sports?
+
+SQL commands:
+python manage.py shell
+from backend.models import BettingEvent, BettingMarket, Bet, BetPriceUpdate, BettingMarketOutcomeType, BettingOutcomeType
+BettingMarket.objects.filter(betting_event__in=BettingEvent.objects.filter(betting_event_id__gte=872)).delete()
+
+BetPriceUpdate.objects.all().delete()
+Bet.objects.all().delete()
+BettingMarket.objects.all().delete()
+
+python manage.py sd_data_update
+
+from backend.serializers import BettingMarketSerializer
+
+BettingOutcome.objects.all().count()
+820186
+BettingOutcomePriceUpdate.objects.all().count()
+820186
+BettingMarket.objects.all().count()
+118622
+BettingMarketOutcomeType.objects.all().count()
+820166
+
+Speed of event
+872 onward      694.002
+                148.82
+                69.3767
+
+
+{"BettingOutcomeID":44695284,"BettingMarketID":283348,"BettingOutcomeTypeID":1,"BettingOutcomeType":"Scrambled","PayoutAmerican":-52,"PayoutDecimal":0.3,"Value":1.6,"Participant":"Colt McCoy","IsAvailable":false,"IsAlternate":false,"Created":"2022-11-21T20:04:40","Updated":"2022-11-21T20:13:15","Unlisted":"2022-11-21T20:14:26","TeamID":null,"PlayerID":4596,"GlobalTeamID":null,"SportsbookUrl":"Scrambled","IsInPlay":false,"SportsbookMarketID":"Scrambled","SportsbookOutcomeID":"Scrambled","SportsBook":{"SportsbookID":7,"Name":"Scrambled"}},
+
+{"BettingOutcomeID":44695285,"BettingMarketID":283348,"BettingOutcomeTypeID":1,"BettingOutcomeType":"Scrambled","PayoutAmerican":-46,"PayoutDecimal":0.3,"Value":1.6,"Participant":"Colt McCoy","IsAvailable":false,"IsAlternate":false,"Created":"2022-11-21T20:04:40","Updated":"2022-11-21T20:13:15","Unlisted":"2022-11-21T20:14:26","TeamID":null,"PlayerID":4596,"GlobalTeamID":null,"SportsbookUrl":"Scrambled","IsInPlay":false,"SportsbookMarketID":"Scrambled","SportsbookOutcomeID":"Scrambled","SportsBook":{"SportsbookID":7,"Name":"Scrambled"}},
+
+2559914
+2559551
+3351496
+228159
+
+Even => No
+No => Yes
+Yes => Under
+Under => Over
